@@ -1,0 +1,1278 @@
+```html
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE CLASS COMPANY | Diwali Specials, Headphones & Backpacks</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        navy: {
+                            800: '#131921',
+                            900: '#0f1117',
+                            950: '#08090d',
+                        },
+                        diwaliGold: '#f59e0b',
+                        diwaliOrange: '#ea580c',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f1117;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #27272a;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3f3f46;
+        }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-950">
+
+    <!-- TOP ANNOUNCEMENT BAR -->
+    <div class="bg-gradient-to-r from-amber-600 via-orange-500 to-amber-500 text-slate-950 text-xs font-bold py-1.5 px-4 text-center flex items-center justify-center gap-2 shadow-sm">
+        <span class="bg-slate-950 text-amber-400 px-2 py-0.5 rounded-full text-[10px] uppercase tracking-wider font-extrabold">🪔 DIWALI DHAMAKA</span>
+        <span>Use Coupon code <strong class="underline bg-amber-300 text-slate-950 px-1.5 py-0.5 rounded">DIWALI2026</strong> for Extra 15% OFF!</span>
+        <button onclick="openModal('membership-modal')" class="underline hover:text-slate-900 font-extrabold ml-2">Class Prime Deals &rarr;</button>
+    </div>
+
+    <!-- MAIN HEADER -->
+    <header class="bg-navy-900 sticky top-0 z-40 border-b border-slate-800 shadow-xl">
+        <div class="max-w-[1700px] mx-auto px-3 sm:px-6 py-2.5 flex items-center justify-between gap-3 md:gap-6">
+            
+            <!-- Logo & Branding -->
+            <a href="#" onclick="resetFilters()" class="flex items-center gap-2 group shrink-0">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-500 p-0.5 shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform">
+                    <div class="w-full h-full bg-navy-900 rounded-[10px] flex items-center justify-center">
+                        <i data-lucide="sparkles" class="w-5 h-5 text-amber-400"></i>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-extrabold text-lg sm:text-xl tracking-tight text-white leading-none">THE CLASS<span class="text-amber-400">.</span></span>
+                    <span class="text-[9px] font-bold uppercase tracking-widest text-slate-400">COMPANY</span>
+                </div>
+            </a>
+
+            <!-- Delivery Location -->
+            <button onclick="openModal('location-modal')" class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-800/80 border border-transparent hover:border-slate-700 transition-all text-left">
+                <i data-lucide="map-pin" class="w-4 h-4 text-amber-400 shrink-0"></i>
+                <div class="text-xs">
+                    <div class="text-slate-400 font-medium">Deliver to</div>
+                    <div class="font-bold text-white leading-tight flex items-center gap-1">
+                        <span id="current-location-text">Chennai 600001</span>
+                        <i data-lucide="chevron-down" class="w-3 h-3 text-slate-400"></i>
+                    </div>
+                </div>
+            </button>
+
+            <!-- Search Bar -->
+            <div class="flex-1 max-w-3xl flex items-center rounded-xl bg-slate-900 border border-slate-700 focus-within:border-amber-400 focus-within:ring-2 focus-within:ring-amber-400/20 transition-all overflow-hidden">
+                <select id="search-category" onchange="applyFilters()" class="bg-slate-800 text-slate-300 text-xs font-semibold px-3 py-2.5 border-r border-slate-700 focus:outline-none cursor-pointer hover:bg-slate-700 hidden sm:block">
+                    <option value="All">All Categories</option>
+                    <option value="Diwali Specials">🪔 Diwali Specials</option>
+                    <option value="Headphones">🎧 Headphones & Audio</option>
+                    <option value="Backpacks">🎒 Backpacks & Travel</option>
+                </select>
+                <div class="relative flex-1 flex items-center">
+                    <input type="text" id="search-input" placeholder="Search Headphones, Backpacks, Diyas, Fairy Lights..." class="w-full bg-transparent px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none">
+                    <button id="clear-search" onclick="clearSearch()" class="hidden text-slate-400 hover:text-white px-2">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
+                </div>
+                <button onclick="triggerSearch()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-5 py-2.5 transition-colors flex items-center justify-center">
+                    <i data-lucide="search" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Right Header Actions -->
+            <div class="flex items-center gap-1 sm:gap-3 shrink-0">
+                
+                <!-- Account & Lists -->
+                <div class="relative group">
+                    <button class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-slate-800/80 border border-transparent hover:border-slate-700 text-left">
+                        <i data-lucide="user" class="w-5 h-5 text-slate-300 sm:hidden"></i>
+                        <div class="hidden sm:block text-xs">
+                            <div class="text-slate-400 font-medium">Hello, Sign in</div>
+                            <div class="font-bold text-white flex items-center gap-1">
+                                Account & Lists
+                                <i data-lucide="chevron-down" class="w-3 h-3 text-slate-400"></i>
+                            </div>
+                        </div>
+                    </button>
+                    <!-- Account Dropdown Menu -->
+                    <div class="absolute right-0 top-full mt-2 w-64 bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-4 hidden group-hover:block z-50">
+                        <div class="pb-3 border-b border-slate-800">
+                            <button onclick="openModal('login-modal')" class="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-extrabold text-xs rounded-xl shadow hover:opacity-95 transition-opacity">
+                                Sign In
+                            </button>
+                        </div>
+                        <div class="pt-3 space-y-2 text-xs">
+                            <a href="#" onclick="openModal('orders-modal')" class="flex items-center gap-2 py-1.5 px-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+                                <i data-lucide="package" class="w-4 h-4 text-amber-400"></i> Your Orders
+                            </a>
+                            <a href="#" onclick="toggleWishlistOnly()" class="flex items-center gap-2 py-1.5 px-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+                                <i data-lucide="heart" class="w-4 h-4 text-rose-500"></i> Wishlist
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Orders Link -->
+                <button onclick="openModal('orders-modal')" class="hidden sm:flex flex-col text-xs px-3 py-1.5 rounded-lg hover:bg-slate-800/80 border border-transparent hover:border-slate-700 text-left">
+                    <span class="text-slate-400 font-medium">Returns</span>
+                    <span class="font-bold text-white">& Orders</span>
+                </button>
+
+                <!-- Cart Button -->
+                <button onclick="toggleCartDrawer(true)" class="relative flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 text-white transition-all">
+                    <div class="relative">
+                        <i data-lucide="shopping-bag" class="w-6 h-6 text-amber-400"></i>
+                        <span id="cart-counter" class="absolute -top-2 -right-2 bg-rose-500 text-white font-extrabold text-[10px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-navy-900 shadow">0</span>
+                    </div>
+                    <div class="hidden md:flex flex-col text-left">
+                        <span class="text-[10px] uppercase font-bold text-slate-400 leading-none">Cart</span>
+                        <span id="cart-total-header" class="text-xs font-extrabold text-amber-400 leading-tight">₹0</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- SECONDARY NAVBAR -->
+        <div class="bg-slate-900/90 border-t border-slate-800/80 px-4 sm:px-6 py-2 overflow-x-auto text-xs font-semibold scrollbar-none">
+            <div class="max-w-[1700px] mx-auto flex items-center gap-4 sm:gap-6 whitespace-nowrap">
+                <button onclick="filterByCategory('All')" class="nav-cat-btn text-white hover:text-amber-400 transition-colors font-bold flex items-center gap-1.5">
+                    <i data-lucide="grid" class="w-4 h-4"></i> All Collections
+                </button>
+                <div class="h-4 w-px bg-slate-800"></div>
+                <button onclick="filterByCategory('Diwali Specials')" class="nav-cat-btn text-amber-400 hover:text-amber-300 font-extrabold flex items-center gap-1">
+                    <i data-lucide="flame" class="w-4 h-4 text-orange-500 fill-current"></i> Diwali Dhamaka Store
+                </button>
+                <button onclick="filterByCategory('Headphones')" class="nav-cat-btn text-slate-300 hover:text-white transition-colors flex items-center gap-1">
+                    <i data-lucide="headphones" class="w-4 h-4 text-cyan-400"></i> Headphones & Audio
+                </button>
+                <button onclick="filterByCategory('Backpacks')" class="nav-cat-btn text-slate-300 hover:text-white transition-colors flex items-center gap-1">
+                    <i data-lucide="backpack" class="w-4 h-4 text-emerald-400"></i> Travel & Backpacks
+                </button>
+                <button onclick="openModal('membership-modal')" class="text-amber-400 hover:text-amber-300 transition-colors ml-auto flex items-center gap-1 font-bold">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Class Prime Express
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-1 max-w-[1700px] w-full mx-auto px-3 sm:px-6 py-4 space-y-8">
+
+        <!-- HERO BANNER CAROUSEL -->
+        <section class="relative rounded-3xl overflow-hidden shadow-2xl bg-slate-900 border border-slate-800">
+            <div id="carousel-slides" class="relative h-64 sm:h-80 md:h-[400px] w-full">
+                <!-- Slide 1: Diwali Special -->
+                <div class="carousel-slide absolute inset-0 transition-opacity duration-700 opacity-100 flex items-center px-8 sm:px-16 bg-gradient-to-r from-slate-950 via-slate-900/90 to-transparent">
+                    <img src="https://images.unsplash.com/photo-1604999565976-8913ad2ddb7c?q=80&w=1200" alt="Diwali Lights Banner" class="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-50">
+                    <div class="relative z-10 max-w-xl space-y-3 sm:space-y-4">
+                        <span class="px-3 py-1 bg-amber-500/20 border border-amber-500/40 text-amber-400 font-extrabold text-xs rounded-full uppercase tracking-wider">🪔 DIWALI GRAND FESTIVAL</span>
+                        <h1 class="text-2xl sm:text-4xl md:text-5xl font-black text-white leading-tight">Light Up Your Home <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-orange-400 to-yellow-300">With Class Traditions.</span></h1>
+                        <p class="text-slate-300 text-xs sm:text-sm font-medium line-clamp-2">Handcrafted brass diyas, warm fairy LED string lights, dry fruit hampers & rangoli kits at up to 70% OFF.</p>
+                        <button onclick="filterByCategory('Diwali Specials')" class="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-extrabold text-xs sm:text-sm shadow-lg transition-all flex items-center gap-2">
+                            Explore Diwali Store <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Slide 2: Headphones -->
+                <div class="carousel-slide absolute inset-0 transition-opacity duration-700 opacity-0 flex items-center px-8 sm:px-16 bg-gradient-to-r from-slate-950 via-slate-900/90 to-transparent">
+                    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1200" alt="Headphones Banner" class="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-40">
+                    <div class="relative z-10 max-w-xl space-y-3 sm:space-y-4">
+                        <span class="px-3 py-1 bg-cyan-500/20 border border-cyan-500/40 text-cyan-400 font-extrabold text-xs rounded-full uppercase tracking-wider">🎧 SOUND OF CELEBRATION</span>
+                        <h1 class="text-2xl sm:text-4xl md:text-5xl font-black text-white leading-tight">Immersive Audio, <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-300">Unmatched Bass.</span></h1>
+                        <p class="text-slate-300 text-xs sm:text-sm font-medium line-clamp-2">Flagship Active Noise Cancelling headphones & TWS earbuds starting at just ₹1,999.</p>
+                        <button onclick="filterByCategory('Headphones')" class="px-6 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-extrabold text-xs sm:text-sm shadow-lg transition-all flex items-center gap-2">
+                            Shop Audio Deals <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Slide 3: Backpacks -->
+                <div class="carousel-slide absolute inset-0 transition-opacity duration-700 opacity-0 flex items-center px-8 sm:px-16 bg-gradient-to-r from-slate-950 via-slate-900/90 to-transparent">
+                    <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=1200" alt="Backpack Banner" class="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-40">
+                    <div class="relative z-10 max-w-xl space-y-3 sm:space-y-4">
+                        <span class="px-3 py-1 bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 font-extrabold text-xs rounded-full uppercase tracking-wider">🎒 BUILT FOR TRAVEL & WORK</span>
+                        <h1 class="text-2xl sm:text-4xl md:text-5xl font-black text-white leading-tight">Waterproof Backpacks <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-amber-300">For Every Journey.</span></h1>
+                        <p class="text-slate-300 text-xs sm:text-sm font-medium line-clamp-2">Anti-theft laptop backpacks, casual college bags, and premium leather travel gear with USB charging ports.</p>
+                        <button onclick="filterByCategory('Backpacks')" class="px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs sm:text-sm shadow-lg transition-all flex items-center gap-2">
+                            Explore Backpacks <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <button onclick="moveSlide(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-950/60 hover:bg-slate-950 border border-slate-700 text-white flex items-center justify-center transition-all z-20">
+                <i data-lucide="chevron-left" class="w-6 h-6"></i>
+            </button>
+            <button onclick="moveSlide(1)" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-950/60 hover:bg-slate-950 border border-slate-700 text-white flex items-center justify-center transition-all z-20">
+                <i data-lucide="chevron-right" class="w-6 h-6"></i>
+            </button>
+
+            <!-- Dots -->
+            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20" id="carousel-dots">
+                <button onclick="setSlide(0)" class="w-3 h-3 rounded-full bg-amber-400 transition-all"></button>
+                <button onclick="setSlide(1)" class="w-3 h-3 rounded-full bg-slate-600 hover:bg-slate-400 transition-all"></button>
+                <button onclick="setSlide(2)" class="w-3 h-3 rounded-full bg-slate-600 hover:bg-slate-400 transition-all"></button>
+            </div>
+        </section>
+
+        <!-- TOP THREE FEATURED CATEGORY TILES -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <button onclick="filterByCategory('Diwali Specials')" class="group p-6 bg-gradient-to-br from-amber-950/40 via-slate-900 to-slate-900 hover:border-amber-500/50 rounded-3xl border border-slate-800 text-left transition-all hover:-translate-y-1">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-orange-500 text-slate-950 flex items-center justify-center mb-4 shadow-lg shadow-amber-500/20">
+                    <i data-lucide="flame" class="w-6 h-6 fill-current"></i>
+                </div>
+                <h3 class="font-black text-lg text-white group-hover:text-amber-400 transition-colors">Diwali Specials</h3>
+                <p class="text-xs text-slate-400 mt-1">Diyas, Fairy Lights, Dry Fruit Hampers & Rangoli Colors.</p>
+                <span class="text-amber-400 font-bold text-xs mt-3 inline-block">Shop Festive Range &rarr;</span>
+            </button>
+
+            <button onclick="filterByCategory('Headphones')" class="group p-6 bg-gradient-to-br from-cyan-950/40 via-slate-900 to-slate-900 hover:border-cyan-500/50 rounded-3xl border border-slate-800 text-left transition-all hover:-translate-y-1">
+                <div class="w-12 h-12 rounded-2xl bg-cyan-500 text-slate-950 flex items-center justify-center mb-4 shadow-lg shadow-cyan-500/20">
+                    <i data-lucide="headphones" class="w-6 h-6"></i>
+                </div>
+                <h3 class="font-black text-lg text-white group-hover:text-cyan-400 transition-colors">Headphones & Audio</h3>
+                <p class="text-xs text-slate-400 mt-1">Wireless ANC Over-Ear, TWS Earbuds & Neckbands.</p>
+                <span class="text-cyan-400 font-bold text-xs mt-3 inline-block">Shop Audio Gear &rarr;</span>
+            </button>
+
+            <button onclick="filterByCategory('Backpacks')" class="group p-6 bg-gradient-to-br from-emerald-950/40 via-slate-900 to-slate-900 hover:border-emerald-500/50 rounded-3xl border border-slate-800 text-left transition-all hover:-translate-y-1">
+                <div class="w-12 h-12 rounded-2xl bg-emerald-500 text-slate-950 flex items-center justify-center mb-4 shadow-lg shadow-emerald-500/20">
+                    <i data-lucide="backpack" class="w-6 h-6"></i>
+                </div>
+                <h3 class="font-black text-lg text-white group-hover:text-emerald-400 transition-colors">Backpacks & Travel</h3>
+                <p class="text-xs text-slate-400 mt-1">Anti-theft Laptop Bags, College Rucksacks & Leather Bags.</p>
+                <span class="text-emerald-400 font-bold text-xs mt-3 inline-block">Shop Backpacks &rarr;</span>
+            </button>
+        </section>
+
+        <!-- DIWALI FLASH DEAL COUNTDOWN BANNER -->
+        <section class="bg-gradient-to-r from-orange-950 via-slate-900 to-amber-950 p-6 rounded-3xl border border-amber-500/40 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-4">
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-500 to-orange-500 text-slate-950 flex items-center justify-center shrink-0 shadow-lg shadow-amber-500/20">
+                    <i data-lucide="sparkles" class="w-8 h-8"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-400 text-[10px] font-extrabold uppercase">DIWALI FLASH OFFER</span>
+                        <h2 class="font-extrabold text-xl sm:text-2xl text-white">Festive Lighting & Audio Deals</h2>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-1">Exclusive prices valid for today only. Free express delivery guaranteed before Diwali!</p>
+                </div>
+            </div>
+
+            <!-- Countdown Timer -->
+            <div class="flex items-center gap-3">
+                <div class="text-center">
+                    <div id="timer-hours" class="w-12 h-12 rounded-xl bg-slate-950 border border-slate-800 text-amber-400 font-extrabold text-xl flex items-center justify-center shadow">11</div>
+                    <span class="text-[10px] text-slate-500 uppercase font-bold mt-1 block">Hours</span>
+                </div>
+                <span class="text-amber-400 font-black text-xl">:</span>
+                <div class="text-center">
+                    <div id="timer-minutes" class="w-12 h-12 rounded-xl bg-slate-950 border border-slate-800 text-amber-400 font-extrabold text-xl flex items-center justify-center shadow">28</div>
+                    <span class="text-[10px] text-slate-500 uppercase font-bold mt-1 block">Mins</span>
+                </div>
+                <span class="text-amber-400 font-black text-xl">:</span>
+                <div class="text-center">
+                    <div id="timer-seconds" class="w-12 h-12 rounded-xl bg-slate-950 border border-slate-800 text-amber-400 font-extrabold text-xl flex items-center justify-center shadow">45</div>
+                    <span class="text-[10px] text-slate-500 uppercase font-bold mt-1 block">Secs</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEARCH AND FILTER CONTROLS BAR -->
+        <section class="flex flex-col md:flex-row items-center justify-between gap-4 bg-slate-900 p-4 rounded-2xl border border-slate-800 text-xs font-semibold">
+            <div class="flex items-center gap-2 text-slate-300 w-full md:w-auto">
+                <span id="results-count-text" class="text-slate-400">Showing all items</span>
+                <span id="active-category-badge" class="px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/30 hidden"></span>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3 w-full md:w-auto justify-end">
+                <!-- Price Filter -->
+                <select id="filter-price-range" onchange="applyFilters()" class="bg-slate-950 border border-slate-700 text-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-amber-400">
+                    <option value="all">Price: All Ranges</option>
+                    <option value="under-1000">Under ₹1,000</option>
+                    <option value="1000-3000">₹1,000 to ₹3,000</option>
+                    <option value="above-3000">Above ₹3,000</option>
+                </select>
+
+                <!-- Sorting Filter -->
+                <select id="filter-sort-by" onchange="applyFilters()" class="bg-slate-950 border border-slate-700 text-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-amber-400">
+                    <option value="featured">Sort by: Featured</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="rating">Avg. Customer Review</option>
+                </select>
+
+                <!-- Reset Button -->
+                <button onclick="resetFilters()" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors flex items-center gap-1">
+                    <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Reset
+                </button>
+            </div>
+        </section>
+
+        <!-- PRODUCT GRID SECTION -->
+        <section>
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                <!-- Dynamic Product Cards Injected Here -->
+            </div>
+            <div id="no-results-view" class="hidden text-center py-16 bg-slate-900 rounded-3xl border border-slate-800 space-y-4">
+                <div class="w-16 h-16 rounded-full bg-slate-800 text-slate-500 flex items-center justify-center mx-auto">
+                    <i data-lucide="search-x" class="w-8 h-8"></i>
+                </div>
+                <h3 class="text-lg font-extrabold text-white">No Items Found</h3>
+                <p class="text-xs text-slate-400 max-w-sm mx-auto">Try checking your search keyword or switching filters.</p>
+                <button onclick="resetFilters()" class="px-5 py-2.5 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs">Reset All Search Filters</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- SHOPPING CART SLIDE-OUT DRAWER -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 hidden">
+        <div onclick="toggleCartDrawer(false)" class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+        <div class="absolute top-0 right-0 bottom-0 w-full sm:w-[450px] bg-slate-900 border-l border-slate-800 shadow-2xl flex flex-col z-10 animate-slide-left">
+            
+            <!-- Cart Header -->
+            <div class="p-5 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="shopping-bag" class="w-5 h-5 text-amber-400"></i>
+                    <h2 class="font-extrabold text-base text-white">Your Shopping Cart</h2>
+                    <span id="drawer-cart-count" class="bg-amber-500/20 border border-amber-500/30 text-amber-400 text-xs px-2 py-0.5 rounded-full font-bold">0</span>
+                </div>
+                <button onclick="toggleCartDrawer(false)" class="text-slate-400 hover:text-white p-1">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <!-- Free Shipping Progress -->
+            <div class="bg-slate-950/80 px-5 py-3 border-b border-slate-800/80">
+                <div class="flex justify-between text-xs font-bold mb-1.5">
+                    <span id="free-shipping-msg" class="text-slate-300">Add ₹999 for FREE Delivery</span>
+                    <span id="free-shipping-percent" class="text-amber-400">0%</span>
+                </div>
+                <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+                    <div id="free-shipping-bar" class="h-full bg-gradient-to-r from-amber-500 to-orange-500 transition-all duration-300 w-0"></div>
+                </div>
+            </div>
+
+            <!-- Coupon Code Section -->
+            <div class="p-4 bg-slate-950/60 border-b border-slate-800">
+                <div class="flex gap-2">
+                    <input type="text" id="coupon-input" placeholder="Coupon Code (DIWALI2026)" class="flex-1 px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white uppercase focus:outline-none focus:border-amber-400">
+                    <button onclick="applyCoupon()" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl transition-colors">Apply</button>
+                </div>
+                <div id="coupon-feedback" class="text-[11px] mt-1 font-bold"></div>
+            </div>
+
+            <!-- Cart Items List -->
+            <div id="cart-items-container" class="flex-1 overflow-y-auto p-5 space-y-4">
+                <!-- Cart Items Rendered Here -->
+            </div>
+
+            <!-- Cart Summary -->
+            <div class="p-5 bg-slate-950 border-t border-slate-800 space-y-4">
+                <div class="space-y-2 text-xs">
+                    <div class="flex justify-between text-slate-400">
+                        <span>Subtotal</span>
+                        <span id="cart-subtotal" class="font-bold text-slate-200">₹0</span>
+                    </div>
+                    <div id="discount-row" class="hidden flex justify-between text-amber-400 font-bold">
+                        <span>Diwali Coupon Discount (15%)</span>
+                        <span id="cart-discount">-₹0</span>
+                    </div>
+                    <div class="flex justify-between text-slate-400">
+                        <span>Class Express Delivery</span>
+                        <span id="cart-delivery-cost" class="font-bold text-emerald-400">FREE</span>
+                    </div>
+                    <div class="pt-2 border-t border-slate-800 flex justify-between text-sm font-extrabold text-white">
+                        <span>Order Total</span>
+                        <span id="cart-total" class="text-amber-400 text-base">₹0</span>
+                    </div>
+                </div>
+
+                <button onclick="openCheckoutModal()" id="checkout-btn" class="w-full py-3.5 bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-extrabold rounded-xl shadow-lg hover:opacity-95 transition-opacity flex items-center justify-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                    <span>Proceed to Checkout</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUICK VIEW MODAL -->
+    <div id="quickview-modal" class="fixed inset-0 z-50 hidden">
+        <div onclick="closeModal('quickview-modal')" class="absolute inset-0 bg-black/80 backdrop-blur-md"></div>
+        <div class="relative max-w-4xl w-full mx-auto my-6 sm:my-12 bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl p-6 sm:p-8 overflow-y-auto max-h-[90vh] z-10">
+            <button onclick="closeModal('quickview-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="quickview-content"></div>
+        </div>
+    </div>
+
+    <!-- CHECKOUT MODAL FLOW -->
+    <div id="checkout-modal" class="fixed inset-0 z-50 hidden">
+        <div onclick="closeModal('checkout-modal')" class="absolute inset-0 bg-black/80 backdrop-blur-md"></div>
+        <div class="relative max-w-3xl w-full mx-auto my-6 sm:my-10 bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl p-6 sm:p-8 overflow-y-auto max-h-[90vh] z-10 space-y-6">
+            <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="shield-check" class="w-6 h-6 text-amber-400"></i>
+                    <h2 class="font-extrabold text-xl text-white">Class Secure Checkout</h2>
+                </div>
+                <button onclick="closeModal('checkout-modal')" class="text-slate-400 hover:text-white">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <!-- Steps -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-semibold">
+                <!-- Address -->
+                <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                    <div class="text-amber-400 font-extrabold uppercase text-[10px] tracking-wider mb-2">1. Delivery Address</div>
+                    <div class="text-white font-bold">Alex Morgan</div>
+                    <div class="text-slate-400 text-[11px] mt-1 leading-relaxed">
+                        No. 42, Class Avenue, Anna Nagar,<br>
+                        Chennai, Tamil Nadu - 600001
+                    </div>
+                    <button onclick="openModal('location-modal')" class="text-amber-400 hover:underline text-[11px] font-bold mt-2">Change address</button>
+                </div>
+
+                <!-- Payment -->
+                <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 md:col-span-2 space-y-3">
+                    <div class="text-amber-400 font-extrabold uppercase text-[10px] tracking-wider">2. Payment Method</div>
+                    
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-3 rounded-xl border border-amber-500/40 bg-amber-500/10 cursor-pointer">
+                            <input type="radio" name="payment" value="upi" checked class="accent-amber-500">
+                            <div class="text-xs">
+                                <div class="font-bold text-white">UPI Instant Pay (Google Pay / PhonePe / Paytm)</div>
+                                <div class="text-slate-400 text-[10px]">Fastest payment for instant order confirmation</div>
+                            </div>
+                        </label>
+
+                        <label class="flex items-center gap-3 p-3 rounded-xl border border-slate-800 bg-slate-900 cursor-pointer">
+                            <input type="radio" name="payment" value="card" class="accent-amber-500">
+                            <div class="text-xs">
+                                <div class="font-bold text-white">Credit / Debit Card</div>
+                                <div class="text-slate-400 text-[10px]">Visa, MasterCard, RuPay</div>
+                            </div>
+                        </label>
+
+                        <label class="flex items-center gap-3 p-3 rounded-xl border border-slate-800 bg-slate-900 cursor-pointer">
+                            <input type="radio" name="payment" value="cod" class="accent-amber-500">
+                            <div class="text-xs">
+                                <div class="font-bold text-white">Cash on Delivery</div>
+                                <div class="text-slate-400 text-[10px]">Pay when item arrives at doorstep</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary -->
+            <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800 space-y-3">
+                <div class="font-bold text-sm text-white">Order Review</div>
+                <div id="checkout-summary-list" class="max-h-40 overflow-y-auto space-y-2 text-xs divide-y divide-slate-800/60">
+                    <!-- Dynamic review items -->
+                </div>
+                <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-sm">
+                    <span class="font-bold text-slate-300">Final Total Amount:</span>
+                    <span id="checkout-final-total" class="font-black text-xl text-amber-400">₹0</span>
+                </div>
+            </div>
+
+            <!-- Action Button -->
+            <button onclick="placeOrder()" class="w-full py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-black rounded-xl shadow-xl hover:opacity-95 transition-all text-sm uppercase tracking-wider flex items-center justify-center gap-2">
+                <i data-lucide="check-circle-2" class="w-5 h-5"></i> Place Order & Pay
+            </button>
+        </div>
+    </div>
+
+    <!-- ORDER CONFIRMATION MODAL -->
+    <div id="order-success-modal" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black/85 backdrop-blur-md"></div>
+        <div class="relative max-w-md w-full mx-auto my-20 bg-slate-900 border border-amber-500/40 rounded-3xl shadow-2xl p-8 text-center z-10 space-y-5">
+            <div class="w-20 h-20 rounded-full bg-emerald-500/20 border-2 border-emerald-500 text-emerald-400 flex items-center justify-center mx-auto shadow-lg shadow-emerald-500/20">
+                <i data-lucide="check" class="w-10 h-10"></i>
+            </div>
+            <h2 class="font-black text-2xl text-white">Order Confirmed!</h2>
+            <p class="text-xs text-slate-300 leading-relaxed">
+                Thank you for ordering with <strong class="text-amber-400">THE CLASS COMPANY</strong>.<br>
+                Order ID: <span id="order-id-display" class="font-mono text-white font-bold">#CC-89412</span>
+            </p>
+            <div class="p-4 bg-slate-950 rounded-2xl border border-slate-800 text-xs text-slate-400 text-left space-y-2">
+                <div class="flex justify-between">
+                    <span>Estimated Delivery:</span>
+                    <span class="text-emerald-400 font-bold">Guaranteed Before Diwali</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Delivery Option:</span>
+                    <span class="text-slate-200 font-bold">Class Express Delivery</span>
+                </div>
+            </div>
+            <button onclick="closeSuccessModal()" class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl text-xs transition-colors">
+                Continue Shopping
+            </button>
+        </div>
+    </div>
+
+    <!-- LOCATION SELECTOR MODAL -->
+    <div id="location-modal" class="fixed inset-0 z-50 hidden">
+        <div onclick="closeModal('location-modal')" class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+        <div class="relative max-w-md w-full mx-auto my-20 bg-slate-900 border border-slate-800 rounded-3xl p-6 z-10 space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 class="font-extrabold text-white text-sm">Choose Delivery Location</h3>
+                <button onclick="closeModal('location-modal')" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <div class="space-y-3">
+                <input type="text" id="pincode-input" placeholder="Enter City or Pincode (e.g., Chennai 600001)" class="w-full px-4 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-amber-400">
+                <button onclick="updateLocation()" class="w-full py-2.5 bg-amber-500 text-slate-950 font-bold text-xs rounded-xl">Apply Location</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ORDERS MODAL -->
+    <div id="orders-modal" class="fixed inset-0 z-50 hidden">
+        <div onclick="closeModal('orders-modal')" class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+        <div class="relative max-w-2xl w-full mx-auto my-16 bg-slate-900 border border-slate-800 rounded-3xl p-6 z-10 space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 class="font-extrabold text-white text-base">Your Orders</h3>
+                <button onclick="closeModal('orders-modal')" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <div id="placed-orders-list" class="space-y-3 max-h-96 overflow-y-auto">
+                <div class="text-center py-8 text-slate-400 text-xs">No recent orders placed yet.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MEMBERSHIP MODAL -->
+    <div id="membership-modal" class="fixed inset-0 z-50 hidden">
+        <div onclick="closeModal('membership-modal')" class="absolute inset-0 bg-black/80 backdrop-blur-md"></div>
+        <div class="relative max-w-xl w-full mx-auto my-16 bg-slate-900 border border-amber-500/40 rounded-3xl p-8 z-10 text-center space-y-6">
+            <div class="w-16 h-16 rounded-2xl bg-amber-500/20 border border-amber-500/40 text-amber-400 flex items-center justify-center mx-auto">
+                <i data-lucide="sparkles" class="w-8 h-8"></i>
+            </div>
+            <h2 class="font-extrabold text-2xl text-white">Class Prime Festive Membership</h2>
+            <p class="text-xs text-slate-300">Enjoy guaranteed 1-day delivery on all Diwali decor, audio gear & backpacks!</p>
+            <button onclick="alert('Class Prime Activated!'); closeModal('membership-modal');" class="w-full py-3.5 bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-extrabold rounded-xl shadow-lg text-xs">
+                Join Class Prime Free
+            </button>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-navy-950 border-t border-slate-800/80 mt-16 text-slate-400 text-xs">
+        <button onclick="window.scrollTo({top:0, behavior:'smooth'})" class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-slate-300 font-bold text-center transition-colors">
+            Back to top
+        </button>
+
+        <div class="max-w-[1700px] mx-auto px-6 py-12 grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div class="space-y-3">
+                <div class="font-extrabold text-white text-sm">Our Collections</div>
+                <ul class="space-y-2">
+                    <li><a href="#" onclick="filterByCategory('Diwali Specials')" class="hover:underline">🪔 Diwali Special Decor</a></li>
+                    <li><a href="#" onclick="filterByCategory('Headphones')" class="hover:underline">🎧 ANC Headphones & Earbuds</a></li>
+                    <li><a href="#" onclick="filterByCategory('Backpacks')" class="hover:underline">🎒 Laptop & Travel Backpacks</a></li>
+                </ul>
+            </div>
+            <div class="space-y-3">
+                <div class="font-extrabold text-white text-sm">Customer Support</div>
+                <ul class="space-y-2">
+                    <li><a href="#" onclick="openModal('orders-modal')" class="hover:underline">Track Order & Returns</a></li>
+                    <li><a href="#" class="hover:underline">Class Express Delivery Info</a></li>
+                    <li><a href="#" class="hover:underline">Festive Guarantee Policy</a></li>
+                </ul>
+            </div>
+            <div class="space-y-3">
+                <div class="font-extrabold text-white text-sm">Make Money With Us</div>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:underline">Sell on The Class Company</a></li>
+                    <li><a href="#" class="hover:underline">Become an Affiliate</a></li>
+                </ul>
+            </div>
+            <div class="space-y-3">
+                <div class="font-extrabold text-white text-sm">About Us</div>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:underline">About The Class Company</a></li>
+                    <li><a href="#" class="hover:underline">Careers</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="border-t border-slate-900 py-6 text-center text-[11px] text-slate-500 space-y-2">
+            <div class="flex items-center justify-center gap-2 font-bold text-slate-400">
+                <i data-lucide="sparkles" class="w-4 h-4 text-amber-400"></i>
+                <span>THE CLASS COMPANY</span>
+            </div>
+            <p>&copy; 2026 THE CLASS COMPANY, Inc. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE JAVASCRIPT LOGIC -->
+    <script>
+        // 1. SPECIFIC PRODUCT CATALOG
+        const PRODUCTS = [
+            // DIWALI SPECIALS
+            {
+                id: 'd1',
+                title: 'Handcrafted Antique Brass Oil Diya Set (Pack of 6)',
+                category: 'Diwali Specials',
+                price: 899,
+                originalPrice: 1999,
+                rating: 4.9,
+                reviews: 840,
+                prime: true,
+                dealOfDay: true,
+                image: 'https://images.unsplash.com/photo-1604999565976-8913ad2ddb7c?q=80&w=600',
+                gallery: ['https://images.unsplash.com/photo-1604999565976-8913ad2ddb7c?q=80&w=600'],
+                specs: ['Pure Brass Material', 'Hand-Carved Traditional Motifs', 'Reusable & Easy to Clean', 'Includes Cotton Wicks Box']
+            },
+            {
+                id: 'd2',
+                title: 'Warm White LED Fairy Rice String Lights (20 Meters)',
+                category: 'Diwali Specials',
+                price: 399,
+                originalPrice: 999,
+                rating: 4.7,
+                reviews: 1250,
+                prime: true,
+                dealOfDay: true,
+                image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=600',
+                gallery: ['https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=600'],
+                specs: ['8 Lighting Modes', 'Waterproof IP65 Wire', 'Energy Efficient Copper Wire', 'Plug & Play Adapter Included']
+            },
+            {
+                id: 'd3',
+                title: 'Royal Festive Sweets & Premium Dry Fruits Gift Hamper',
+                category: 'Diwali Specials',
+                price: 1499,
+                originalPrice: 2499,
+                rating: 4.9,
+                reviews: 620,
+                prime: true,
+                dealOfDay: true,
+                image: 'https://images.unsplash.com/photo-1599599810769-bcde5a160d32?q=80&w=600',
+                gallery: ['https://images.unsplash.com/photo-1599599810769-bcde5a160d32?q=80&w=600'],
+                specs: ['Includes Almonds, Cashews, Pistachios & Kaju Katli', 'Designer Wooden Velvet Box', '100% Organic & Fresh Certified', 'Greeting Card Included']
+            },
+            {
+                id: 'd4',
+                title: 'Vibrant Rangoli Color Powder Set (10 Colors + Stencils)',
+                category: 'Diwali Specials',
+                price: 299,
+                originalPrice: 599,
+                rating: 4.6,
+                reviews: 310,
+                prime: false,
+                dealOfDay: false,
+                image: 'https://images.unsplash.com/photo-1605007493699-af65834f8a00?q=80&w=600',
+                gallery: ['https://images.unsplash.com/photo-1605007493699-af65834f8a00?q=80&w=600'],
+                specs: ['Non-Toxic Eco-Friendly Colors', 'Includes 4 Quick-Stencils', 'Bright Organic Pigments', 'Easy Floor Washable']
+            },
+
+            // HEADPHONES & AUDIO
+            {
+                id: 'h1',
+                title: 'Class SoundPro Active Noise Cancelling Headphones',
+                category: 'Headphones',
+                price: 3499,
+                originalPrice: 7999,
+                rating: 4.8,
+                reviews: 2100,
+                prime: true,
+                dealOfDay: true,
+                image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=600',
+                gallery: ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=600'],
+                specs: ['40dB Active Noise Cancellation', '50-Hour Playtime', '40mm Dynamic Bass Drivers', 'Bluetooth 5.3 Quick Connect']
+            },
+            {
+                id: 'h2',
+                title: 'Class Buds Pro True Wireless Earbuds with ANC',
+                category: 'Headphones',
+                price: 1999,
+                originalPrice: 4999,
+                rating: 4.7,
+                reviews: 1850,
+                prime: true,
+                dealOfDay: false,
+                image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=600',
+                gallery: ['https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=600'],
+                specs: ['Quad-Mic AI Clear Call ENC', 'Ultra-Low 40ms Gaming Latency', 'IPX5 Sweat & Water Resistant', 'Type-C Fast Charging']
+            },
+            {
+                id: 'h3',
+                title: 'Studio Monitor Over-Ear Wired High-Res Headphones',
+                category: 'Headphones',
+                price: 4999,
+                originalPrice: 8999,
+                rating: 4.9,
+                reviews: 430,
+                prime: true,
+                dealOfDay: false,
+                image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=600',
+                gallery: ['https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=600'],
+                specs: ['50mm Neodymium Drivers', 'Detachable Coiled Cable', 'Zero-Latency Audio Monitoring', 'Memory Foam Cushion Pads']
+            },
+
+            // BACKPACKS
+            {
+                id: 'b1',
+                title: 'Waterproof Anti-Theft Laptop Backpack (15.6")',
+                category: 'Backpacks',
+                price: 1299,
+                originalPrice: 3499,
+                rating: 4.8,
+                reviews: 1540,
+                prime: true,
+                dealOfDay: true,
+                image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=600',
+                gallery: ['https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=600'],
+                specs: ['External USB Charging Port', 'TSA Combination Lock', 'Water-Repellent Oxford Fabric', '35L Multi-Compartment Capacity']
+            },
+            {
+                id: 'b2',
+                title: 'Executive Leather Laptop Travel Backpack',
+                category: 'Backpacks',
+                price: 2499,
+                originalPrice: 5999,
+                rating: 4.9,
+                reviews: 670,
+                prime: true,
+                dealOfDay: false,
+                image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=600',
+                gallery: ['https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=600'],
+                specs: ['Full-Grain Genuine Vegan Leather', 'Ergonomic Padded Shoulder Straps', 'Luggage Strap Attachment', 'Padded 16" MacBook Sleeve']
+            },
+            {
+                id: 'b3',
+                title: 'Ultralight Casual College & Travel Daypack (28L)',
+                category: 'Backpacks',
+                price: 799,
+                originalPrice: 1999,
+                rating: 4.5,
+                reviews: 920,
+                prime: false,
+                dealOfDay: false,
+                image: 'https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?q=80&w=600',
+                gallery: ['https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?q=80&w=600'],
+                specs: ['Breathable Air-Mesh Backing', 'Dual Mesh Water Bottle Holders', 'Scratch Resistant Nylon Material', 'Lightweight 420g Design']
+            }
+        ];
+
+        // 2. STATE MANAGEMENT
+        let cart = [];
+        let wishlist = new Set();
+        let placedOrders = [];
+        let currentSlide = 0;
+        let selectedCategory = 'All';
+        let appliedDiscountPercent = 0;
+
+        // 3. INITIALIZATION
+        window.onload = function() {
+            lucide.createIcons();
+            renderProducts(PRODUCTS);
+            startHeroCarousel();
+            startCountdownTimer();
+            updateCartUI();
+        };
+
+        // 4. CAROUSEL & TIMER
+        function startHeroCarousel() {
+            setInterval(() => moveSlide(1), 5000);
+        }
+
+        function setSlide(index) {
+            const slides = document.querySelectorAll('.carousel-slide');
+            const dots = document.querySelectorAll('#carousel-dots button');
+            slides[currentSlide].classList.add('opacity-0');
+            slides[currentSlide].classList.remove('opacity-100');
+            dots[currentSlide].className = 'w-3 h-3 rounded-full bg-slate-600 hover:bg-slate-400 transition-all';
+
+            currentSlide = index;
+            if (currentSlide >= slides.length) currentSlide = 0;
+            if (currentSlide < 0) currentSlide = slides.length - 1;
+
+            slides[currentSlide].classList.remove('opacity-0');
+            slides[currentSlide].classList.add('opacity-100');
+            dots[currentSlide].className = 'w-3 h-3 rounded-full bg-amber-400 transition-all';
+        }
+
+        function moveSlide(direction) {
+            setSlide(currentSlide + direction);
+        }
+
+        function startCountdownTimer() {
+            let hours = 11, minutes = 28, seconds = 45;
+            setInterval(() => {
+                seconds--;
+                if (seconds < 0) {
+                    seconds = 59;
+                    minutes--;
+                    if (minutes < 0) {
+                        minutes = 59;
+                        hours--;
+                    }
+                }
+                document.getElementById('timer-hours').innerText = hours.toString().padStart(2, '0');
+                document.getElementById('timer-minutes').innerText = minutes.toString().padStart(2, '0');
+                document.getElementById('timer-seconds').innerText = seconds.toString().padStart(2, '0');
+            }, 1000);
+        }
+
+        // 5. PRODUCT RENDERING
+        function renderProducts(items) {
+            const grid = document.getElementById('product-grid');
+            const noResults = document.getElementById('no-results-view');
+            grid.innerHTML = '';
+
+            if (items.length === 0) {
+                noResults.classList.remove('hidden');
+                return;
+            } else {
+                noResults.classList.add('hidden');
+            }
+
+            items.forEach(product => {
+                const discount = Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
+                const isWishlisted = wishlist.has(product.id);
+
+                const card = document.createElement('div');
+                card.className = 'group bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-3xl p-4 flex flex-col justify-between transition-all hover:shadow-2xl hover:-translate-y-1 relative';
+
+                card.innerHTML = `
+                    <div>
+                        <!-- Image Container -->
+                        <div class="relative h-48 w-full rounded-2xl overflow-hidden bg-slate-950 mb-4 cursor-pointer" onclick="openQuickView('${product.id}')">
+                            <img src="${product.image}" alt="${product.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            
+                            <!-- Discount Badge -->
+                            <span class="absolute top-3 left-3 bg-rose-500 text-white font-black text-[10px] px-2 py-0.5 rounded-full shadow">
+                                -${discount}% OFF
+                            </span>
+
+                            <!-- Wishlist Button -->
+                            <button onclick="event.stopPropagation(); toggleWishlist('${product.id}')" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-slate-950/70 hover:bg-slate-950 text-slate-300 hover:text-rose-500 flex items-center justify-center transition-colors">
+                                <i data-lucide="heart" class="w-4 h-4 ${isWishlisted ? 'fill-rose-500 text-rose-500' : ''}"></i>
+                            </button>
+                        </div>
+
+                        <!-- Category & Prime -->
+                        <div class="flex items-center justify-between text-[11px] mb-1.5">
+                            <span class="text-amber-400 font-extrabold uppercase tracking-wider">${product.category}</span>
+                            ${product.prime ? '<span class="px-2 py-0.5 bg-amber-500/10 border border-amber-500/30 text-amber-400 font-extrabold rounded-full text-[9px] flex items-center gap-1"><i data-lucide="zap" class="w-3 h-3 fill-current"></i> PRIME</span>' : ''}
+                        </div>
+
+                        <!-- Title -->
+                        <h3 onclick="openQuickView('${product.id}')" class="font-bold text-sm text-white hover:text-amber-400 cursor-pointer transition-colors line-clamp-2 mb-2 leading-snug">
+                            ${product.title}
+                        </h3>
+
+                        <!-- Rating -->
+                        <div class="flex items-center gap-1 text-xs mb-3">
+                            <div class="flex items-center text-amber-400">
+                                <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+                                <span class="font-extrabold ml-1 text-white">${product.rating}</span>
+                            </div>
+                            <span class="text-slate-500">(${product.reviews})</span>
+                        </div>
+                    </div>
+
+                    <!-- Price & Actions -->
+                    <div>
+                        <div class="flex items-baseline gap-2 mb-3">
+                            <span class="text-lg font-black text-white">₹${product.price.toLocaleString()}</span>
+                            <span class="text-xs text-slate-500 line-through">₹${product.originalPrice.toLocaleString()}</span>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="addToCart('${product.id}')" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-xl transition-colors flex items-center justify-center gap-1">
+                                <i data-lucide="shopping-cart" class="w-3.5 h-3.5 text-amber-400"></i> Add
+                            </button>
+                            <button onclick="buyNow('${product.id}')" class="w-full py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs rounded-xl shadow transition-colors">
+                                Buy Now
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        // 6. FILTER LOGIC
+        function triggerSearch() { applyFilters(); }
+
+        function clearSearch() {
+            document.getElementById('search-input').value = '';
+            document.getElementById('clear-search').classList.add('hidden');
+            applyFilters();
+        }
+
+        document.getElementById('search-input').addEventListener('input', function(e) {
+            const clearBtn = document.getElementById('clear-search');
+            if (e.target.value.trim() !== '') clearBtn.classList.remove('hidden');
+            else clearBtn.classList.add('hidden');
+            applyFilters();
+        });
+
+        function filterByCategory(category) {
+            selectedCategory = category;
+            const categoryBadge = document.getElementById('active-category-badge');
+            if (category !== 'All') {
+                categoryBadge.innerText = category;
+                categoryBadge.classList.remove('hidden');
+            } else {
+                categoryBadge.classList.add('hidden');
+            }
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const query = document.getElementById('search-input').value.toLowerCase().trim();
+            const categorySelect = document.getElementById('search-category').value;
+            const priceRange = document.getElementById('filter-price-range').value;
+            const sortBy = document.getElementById('filter-sort-by').value;
+
+            let filtered = PRODUCTS.filter(p => {
+                const matchesQuery = p.title.toLowerCase().includes(query) || p.category.toLowerCase().includes(query);
+                
+                let matchesCategory = true;
+                if (selectedCategory !== 'All') {
+                    matchesCategory = p.category === selectedCategory;
+                } else if (categorySelect !== 'All') {
+                    matchesCategory = p.category === categorySelect;
+                }
+
+                let matchesPrice = true;
+                if (priceRange === 'under-1000') matchesPrice = p.price < 1000;
+                else if (priceRange === '1000-3000') matchesPrice = p.price >= 1000 && p.price <= 3000;
+                else if (priceRange === 'above-3000') matchesPrice = p.price > 3000;
+
+                return matchesQuery && matchesCategory && matchesPrice;
+            });
+
+            if (sortBy === 'price-low') filtered.sort((a, b) => a.price - b.price);
+            else if (sortBy === 'price-high') filtered.sort((a, b) => b.price - a.price);
+            else if (sortBy === 'rating') filtered.sort((a, b) => b.rating - a.rating);
+
+            document.getElementById('results-count-text').innerText = `Showing ${filtered.length} items`;
+            renderProducts(filtered);
+        }
+
+        function resetFilters() {
+            selectedCategory = 'All';
+            document.getElementById('search-input').value = '';
+            document.getElementById('search-category').value = 'All';
+            document.getElementById('filter-price-range').value = 'all';
+            document.getElementById('filter-sort-by').value = 'featured';
+            document.getElementById('active-category-badge').classList.add('hidden');
+            document.getElementById('clear-search').classList.add('hidden');
+            renderProducts(PRODUCTS);
+        }
+
+        // 7. WISHLIST TOGGLE
+        function toggleWishlist(id) {
+            if (wishlist.has(id)) wishlist.delete(id);
+            else wishlist.add(id);
+            applyFilters();
+        }
+
+        function toggleWishlistOnly() {
+            const wishlisted = PRODUCTS.filter(p => wishlist.has(p.id));
+            renderProducts(wishlisted);
+            document.getElementById('results-count-text').innerText = `Showing Wishlist (${wishlisted.length})`;
+        }
+
+        // 8. CART & COUPON LOGIC
+        function addToCart(productId) {
+            const idx = cart.findIndex(i => i.id === productId);
+            if (idx > -1) {
+                cart[idx].quantity++;
+            } else {
+                const prod = PRODUCTS.find(p => p.id === productId);
+                cart.push({ ...prod, quantity: 1 });
+            }
+            updateCartUI();
+            toggleCartDrawer(true);
+        }
+
+        function buyNow(productId) {
+            addToCart(productId);
+            openCheckoutModal();
+        }
+
+        function updateQuantity(productId, delta) {
+            const idx = cart.findIndex(i => i.id === productId);
+            if (idx > -1) {
+                cart[idx].quantity += delta;
+                if (cart[idx].quantity <= 0) cart.splice(idx, 1);
+            }
+            updateCartUI();
+        }
+
+        function applyCoupon() {
+            const code = document.getElementById('coupon-input').value.trim().toUpperCase();
+            const feedback = document.getElementById('coupon-feedback');
+            if (code === 'DIWALI2026') {
+                appliedDiscountPercent = 15;
+                feedback.innerText = '✓ Diwali 15% OFF Coupon Applied!';
+                feedback.className = 'text-[11px] mt-1 font-bold text-emerald-400';
+            } else {
+                appliedDiscountPercent = 0;
+                feedback.innerText = '❌ Invalid Coupon Code. Try DIWALI2026';
+                feedback.className = 'text-[11px] mt-1 font-bold text-rose-400';
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const count = cart.reduce((s, i) => s + i.quantity, 0);
+            const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+            const discount = Math.round((subtotal * appliedDiscountPercent) / 100);
+            const total = subtotal - discount;
+
+            document.getElementById('cart-counter').innerText = count;
+            document.getElementById('drawer-cart-count').innerText = count;
+            document.getElementById('cart-total-header').innerText = `₹${total.toLocaleString()}`;
+            document.getElementById('cart-subtotal').innerText = `₹${subtotal.toLocaleString()}`;
+
+            if (discount > 0) {
+                document.getElementById('discount-row').classList.remove('hidden');
+                document.getElementById('cart-discount').innerText = `-₹${discount.toLocaleString()}`;
+            } else {
+                document.getElementById('discount-row').classList.add('hidden');
+            }
+
+            document.getElementById('cart-total').innerText = `₹${total.toLocaleString()}`;
+
+            // Free Shipping Threshold (₹999)
+            const threshold = 999;
+            const progress = Math.min((subtotal / threshold) * 100, 100);
+            document.getElementById('free-shipping-bar').style.width = `${progress}%`;
+            document.getElementById('free-shipping-percent').innerText = `${Math.round(progress)}%`;
+
+            if (subtotal >= threshold) {
+                document.getElementById('free-shipping-msg').innerText = '🎉 FREE Class Express Delivery Unlocked!';
+            } else {
+                const diff = threshold - subtotal;
+                document.getElementById('free-shipping-msg').innerText = `Add ₹${diff.toLocaleString()} for FREE Delivery`;
+            }
+
+            // Render Cart Drawer
+            const container = document.getElementById('cart-items-container');
+            container.innerHTML = '';
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-slate-500 space-y-3">
+                        <i data-lucide="shopping-bag" class="w-12 h-12 mx-auto stroke-1"></i>
+                        <div class="font-extrabold text-sm text-slate-300">Your cart is empty</div>
+                        <p class="text-xs">Explore Diwali specials, audio gear, and travel bags!</p>
+                    </div>
+                `;
+                document.getElementById('checkout-btn').disabled = true;
+            } else {
+                document.getElementById('checkout-btn').disabled = false;
+                cart.forEach(item => {
+                    const el = document.createElement('div');
+                    el.className = 'flex items-center gap-3 p-3 bg-slate-950 rounded-2xl border border-slate-800';
+                    el.innerHTML = `
+                        <img src="${item.image}" alt="${item.title}" class="w-16 h-16 rounded-xl object-cover border border-slate-800">
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-bold text-xs text-white truncate">${item.title}</h4>
+                            <div class="text-amber-400 font-extrabold text-xs mt-0.5">₹${(item.price * item.quantity).toLocaleString()}</div>
+                            
+                            <div class="flex items-center gap-2 mt-2">
+                                <button onclick="updateQuantity('${item.id}', -1)" class="w-6 h-6 rounded-lg bg-slate-800 text-white flex items-center justify-center font-bold text-xs">-</button>
+                                <span class="text-xs font-extrabold text-white px-1">${item.quantity}</span>
+                                <button onclick="updateQuantity('${item.id}', 1)" class="w-6 h-6 rounded-lg bg-slate-800 text-white flex items-center justify-center font-bold text-xs">+</button>
+                            </div>
+                        </div>
+                        <button onclick="updateQuantity('${item.id}', -${item.quantity})" class="text-slate-500 hover:text-rose-500 p-1">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    `;
+                    container.appendChild(el);
+                });
+            }
+            lucide.createIcons();
+        }
+
+        function toggleCartDrawer(open) {
+            const drawer = document.getElementById('cart-drawer');
+            if (open) drawer.classList.remove('hidden');
+            else drawer.classList.add('hidden');
+        }
+
+        // 9. QUICK VIEW MODAL
+        function openQuickView(id) {
+            const product = PRODUCTS.find(p => p.id === id);
+            const content = document.getElementById('quickview-content');
+            
+            content.innerHTML = `
+                <div>
+                    <img src="${product.image}" alt="${product.title}" class="w-full h-80 object-cover rounded-2xl border border-slate-800 mb-3">
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <span class="px-2.5 py-1 bg-amber-500/10 border border-amber-500/30 text-amber-400 font-extrabold text-xs rounded-full uppercase">${product.category}</span>
+                        <h2 class="text-xl font-extrabold text-white mt-2">${product.title}</h2>
+                        <div class="flex items-center gap-2 mt-2 text-xs">
+                            <span class="text-amber-400 font-bold flex items-center gap-1"><i data-lucide="star" class="w-4 h-4 fill-current"></i> ${product.rating}</span>
+                            <span class="text-slate-500">| ${product.reviews} Reviews</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-baseline gap-3">
+                        <span class="text-2xl font-black text-amber-400">₹${product.price.toLocaleString()}</span>
+                        <span class="text-sm text-slate-500 line-through">₹${product.originalPrice.toLocaleString()}</span>
+                    </div>
+
+                    <div class="space-y-2">
+                        <div class="text-xs font-extrabold text-slate-300 uppercase tracking-wider">Specifications</div>
+                        <ul class="space-y-1 text-xs text-slate-400">
+                            ${product.specs.map(s => `<li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-amber-400"></i> ${s}</li>`).join('')}
+                        </ul>
+                    </div>
+
+                    <div class="pt-4">
+                        <button onclick="addToCart('${product.id}'); closeModal('quickview-modal');" class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl text-xs transition-colors">
+                            Add to Shopping Cart
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            lucide.createIcons();
+            openModal('quickview-modal');
+        }
+
+        // 10. CHECKOUT FLOW
+        function openCheckoutModal() {
+            toggleCartDrawer(false);
+            const summaryList = document.getElementById('checkout-summary-list');
+            summaryList.innerHTML = '';
+            
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const discount = Math.round((subtotal * appliedDiscountPercent) / 100);
+            const total = subtotal - discount;
+
+            cart.forEach(item => {
+                const el = document.createElement('div');
+                el.className = 'pt-2 flex justify-between items-center text-slate-300';
+                el.innerHTML = `
+                    <span class="truncate max-w-[200px]">${item.quantity}x ${item.title}</span>
+                    <span class="font-bold">₹${(item.price * item.quantity).toLocaleString()}</span>
+                `;
+                summaryList.appendChild(el);
+            });
+
+            document.getElementById('checkout-final-total').innerText = `₹${total.toLocaleString()}`;
+            openModal('checkout-modal');
+        }
+
+        function placeOrder() {
+            closeModal('checkout-modal');
+            const orderId = '#CC-' + Math.floor(10000 + Math.random() * 90000);
+            document.getElementById('order-id-display').innerText = orderId;
+
+            placedOrders.push({
+                id: orderId,
+                date: new Date().toLocaleDateString(),
+                items: [...cart],
+                total: document.getElementById('checkout-final-total').innerText
+            });
+
+            confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+
+            cart = [];
+            updateCartUI();
+            openModal('order-success-modal');
+            renderPlacedOrders();
+        }
+
+        function renderPlacedOrders() {
+            const list = document.getElementById('placed-orders-list');
+            list.innerHTML = '';
+
+            if (placedOrders.length === 0) {
+                list.innerHTML = `<div class="text-center py-8 text-slate-400 text-xs">No recent orders placed yet.</div>`;
+                return;
+            }
+
+            placedOrders.forEach(order => {
+                const card = document.createElement('div');
+                card.className = 'p-4 bg-slate-950 rounded-2xl border border-slate-800 space-y-2 text-xs';
+                card.innerHTML = `
+                    <div class="flex justify-between items-center text-slate-400">
+                        <span class="font-bold text-white">${order.id}</span>
+                        <span>Placed on: ${order.date}</span>
+                    </div>
+                    <div class="text-slate-300">
+                        ${order.items.map(i => `${i.quantity}x ${i.title}`).join(', ')}
+                    </div>
+                    <div class="flex justify-between items-center pt-2 border-t border-slate-800">
+                        <span class="text-emerald-400 font-bold">Status: Express Shipping</span>
+                        <span class="text-amber-400 font-extrabold">${order.total}</span>
+                    </div>
+                `;
+                list.appendChild(card);
+            });
+        }
+
+        function closeSuccessModal() { closeModal('order-success-modal'); }
+
+        function updateLocation() {
+            const val = document.getElementById('pincode-input').value.trim();
+            if (val) {
+                document.getElementById('current-location-text').innerText = val;
+                closeModal('location-modal');
+            }
+        }
+
+        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+    </script>
+</body>
+</html>
+```
